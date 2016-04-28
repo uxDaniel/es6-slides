@@ -1,0 +1,48 @@
+.reveal mark {
+    background: #3F3F3F;
+    color: #dcdcdc;
+    font-family: monospace;
+    font-size: 0.8em;
+    padding: 0 0.25em;
+}
+
+.two-columns {
+    -webkit-columns: 2;
+    -moz-columns: 2;
+    columns: 2;
+}
+
+.reveal h1,
+.reveal h2,
+.reveal h3 {
+    text-transform: none;
+}
+
+.reveal ul {
+    margin: 0;
+    padding: 0;
+}
+.reveal li {
+    margin-bottom: 0.5em;
+}
+.reveal ul.nowrap li {
+    list-style-position: inside;
+    white-space: nowrap;
+}
+
+.reveal table.small {
+    font-size: 0.5em;
+}
+
+.reveal section img.icon {
+    max-height: 1em;
+    border: none;
+    vertical-align: baseline;
+    margin: 0 0.25em 0 0;
+    box-shadow: none;
+    background: none;
+}
+
+.reveal section img.icon[src$='.svg'] {
+    max-width: 1em;
+}

@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>Dr. ES6, or how I learned to stop worrying and love Javascript</title>
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/moon.css">
+    <!-- Code syntax highlighting -->
+	<link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+<section>
+    <h1>Dr. ES6</h1>
+    <p>or how I learned to stop worrying and love Javascript</p>
+</section>
+
+<section id="agenda">
+    <h2>Agenda</h2>
+    <ul class="two-columns nowrap">
+        <li><a href="#/ecmascript">ECMAScript</a></li>
+        <li><a href="#/typescript">TypeScript</a></li>
+        <li><a href="#/transpilers">Transpilers</a></li>
+        <li><a href="#/strings">New String Methods</a></li>
+        <li><a href="#/metaprogramming">Metaprogramming</a></li>
+        <li><a href="#/template-strings">Template Strings</a></li>
+        <li><a href="#/maps">Maps</a></li>
+        <li><a href="#/sets">Sets</a></li>
+        <li><a href="#/const-let">Const & Let</a></li>
+        <li><a href="#/destructuring">Destructuring</a></li>
+        <li><a href="#/fat-arrow-functions">Fat Arrow Functions</a></li>
+        <!-- <li><a href="#/class-basics">Class Basics</a></li>
+        <li><a href="#/class-inheritance">Class Inheritance</a></li>
+        <li><a href="#/module">Module</a></li>
+        <li><a href="#/module-loaders">Module Loaders</a></li> -->
+    </ul>
+</section>
+
+<section>
+    <section id="ecmascript">
+        <h2>What is ECMAScript?</h2>
+        <ul>
+            <li class="fragment">ECMA: European Computer Manufactures Association</li>
+            <li class="fragment">1995: Netscape releases Livescript/Mocka → Javascript</li>
+            <li class="fragment">1996: Internet Explorer releases JScript</li>
+            <li class="fragment">ECMAScript: Standard/Spec that Javascript is based on</li>
+            <li class="fragment">ECMA decides to create a specification, but vendors were free to decide what features to implement</li>
+            <li class="fragment">There are other languages based on ECMAScript (Actionscript)</li>
+            <li class="fragment">ES6: <a href="http://www.ecma-international.org/ecma-262/6.0/">ECMAScript v6.0</a>; also known as ES2015</li>
+        </ul>
+    </section>
+    <section id="ecmascript-versions">
+        <h2>ECMAScript versions</h2>
+        <table class="small">
+            <tbody>
+                <tr>
+                    <th>Edition</th>
+                    <th>Date</th>
+                    <th>Changes from prior edition</th>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>June 1997</td>
+                    <td>First edition.</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>June 1998</td>
+                    <td>Editorial changes to keep the spec fully aligned with ISO/IEC 16262 international standard.</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Dec 1999</td>
+                    <td>Added <a href="http://wikipedia.org/wiki/Regular_expression" title="Regular expression">regular expressions</a>, better string handling, new control statements, try/catch exception handling, tighter definition of errors, formatting for numeric output and other enhancements.</td>
+                </tr>
+                <tr class="fragment">
+                    <td>4</td>
+                    <td>Abandoned</td>
+                    <td>Fourth Edition was <strong>abandoned</strong>, due to political differences concerning language complexity. Many features proposed for the Fourth Edition have been completely dropped; some are proposed for ECMAScript Harmony.</td>
+                </tr>
+                <tr class="fragment">
+                    <td>5</td>
+                    <td>Dec 2009</td>
+                    <td>Adds "strict mode", a subset intended to provide more thorough error checking and avoid error-prone constructs. Clarifies many ambiguities in the 3rd edition specification, and accommodates behaviour of real-world implementations that differed consistently from that specification. Adds some new features, such as getters and setters, library support for <a href="http://wikipedia.org/wiki/JSON" title="JSON">JSON</a>, and more complete <a href="http://wikipedia.org/wiki/Reflection_(computer_science)" title="Reflection (computer science)" class="mw-redirect">reflection</a> on object properties.</td>
+                </tr>
+                <tr class="fragment">
+                    <td>5.1</td>
+                    <td>June 2011</td>
+                    <td>This edition 5.1 of the ECMAScript Standard is fully aligned with third edition of the international standard ISO/IEC 16262:2011.</td>
+                </tr>
+                <tr class="fragment">
+                    <td>6</td>
+                    <td>June 2015</td>
+                    <td>The Sixth Edition, known as ECMAScript 2015, adds significant new syntax for writing complex applications, including classes and modules, but defines them semantically in the same terms as ECMAScript 5 strict mode. Other new features include iterators and <tt>for</tt>/<tt>of</tt> loops, <a href="http://wikipedia.org/wiki/Python_(programming_language)" title="Python (programming language)">Python</a>-style generators and generator expressions, arrow functions, binary data, typed arrays, collections (maps, sets and weak maps), promises, number and math enhancements, reflection, and proxies (metaprogramming for virtual objects and wrappers). As the first “ECMAScript Harmony” specification, it is also known as “ES6 Harmony”.</td>
+                </tr>
+                <tr class="fragment">
+                    <td>7</td>
+                    <td>TBD</td>
+                    <td>Work in progress.</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+</section>
+<section id="typescript">
+    <h2>TypeScript</h2>
+    <ul>
+        <li class="fragment">Javascript superset</li>
+        <li class="fragment">Static typing</li>
+        <li class="fragment">Transpiles to ES6-5</li>
+        <li class="fragment">Microsoft invented it</li>
+        <li class="fragment">Google wrote AngularJS 2 in Typescript</li>
+    </ul>
+
+<pre class="fragment"><code class="hljs">//File: app/app.component.ts
+
+import {Component} from 'angular2/core';
+
+@Component({
+    selector: 'my-app',
+    template: '<h1>My First Angular 2 App</h1>'
+})
+
+export class AppComponent { }</code></pre>
+</section>
+
+<section id="transpilers">
+    <h2>Transpilers</h2>
+    <ul>
+        <li class="fragment">Compilers: Source code → Executable code</li>
+        <li class="fragment">Transpilers: Language 'A' → Language 'B'</li>
+        <li class="fragment">Traceur, written by Google, is prefered by the Angular2 team</li>
+        <li class="fragment">Babel, previously called 6to5, is the most popular</li>
+        <li class="fragment">ES6 Shim, yet another option</li>
+        <li class="fragment"><a href="https://kangax.github.io/compat-table/es6/">Kangax' ES6 compatibility table (like caniuse.com for ES)</a></li>
+        <li class="fragment">Transpilers take their green column and replace the red ones</li>
+    </ul>
+</section>
+
+<section>
+    <section id="strings">
+        <h2>New String Methods</h2>
+        <ul>
+            <li class="fragment"><mark>startsWith, endsWith, includes, repeat</mark></li>
+            <li class="fragment">Syntactic sugar</li>
+            <li class="fragment">Previous implementations: underscore, lodash</li>
+            <li class="fragment">Fine, but better if we use native JS</li>
+            <li class="fragment">ECMA decides to add new features when there are time-tested implementations</li>
+        </ul>
+
+    </section>
+    <section>
+        <h2>str.startsWith(searchString[, position])</h2>
+        <pre><code class="hljs">var str = 'To be, or not to be, that is the question.';
+
+console.log(str.startsWith('To be'));         // true
+console.log(str.startsWith('not to be'));     // false
+console.log(str.startsWith('not to be', 10)); // true</code></pre>
+<div class="fragment">
+    <h2>str.endsWith(searchString[, position])</h2>
+    <pre><code class="hljs">var str = 'To be, or not to be, that is the question.';
+
+console.log(str.endsWith('question.')); // true
+console.log(str.endsWith('to be'));     // false
+console.log(str.endsWith('to be', 19)); // true</code></pre>
+</div>
+    </section>
+    <section>
+        <h2>str.includes(searchString[, position])</h2>
+<pre><code class="hljs">var str = 'To be, or not to be, that is the question.';
+
+console.log(str.includes('To be'));       // true
+console.log(str.includes('question'));    // true
+console.log(str.includes('nonexistent')); // false
+console.log(str.includes('To be', 1));    // false
+console.log(str.includes('TO BE'));       // false</code></pre>
+<div class="fragment">
+<h2>str.repeat(count)</h2>
+<pre><code class="hljs">var str = 'To be, or not to be, that is the question.';
+
+'abc'.repeat(-1);   // RangeError
+'abc'.repeat(0);    // ''
+'abc'.repeat(1);    // 'abc'
+'abc'.repeat(2);    // 'abcabc'
+'abc'.repeat(3.5);  // 'abcabcabc' (count will be converted to integer)
+'abc'.repeat(1/0);  // RangeError
+
+({ toString: () => 'abc', repeat: String.prototype.repeat }).repeat(2);
+// 'abcabc' (repeat() is a generic method)</code></pre>
+</div>
+    </section>
+</section>
+
+<section>
+    <section id="metaprogramming">
+        <h2>Metaprogramming</h2>
+        <ul>
+            <li class="fragment">Such simple features took a lot of time to be implemented (by the browsers)</li>
+            <li class="fragment">JS is a dynamic language (can self-modify itself)</li>
+            <li class="fragment">Self-modifying code at run-time</li>
+            <li class="fragment">Way to add your own sugar</li>
+            <li class="fragment">No need to wait for ES7, ES8... to get these new features</li>
+            <li class="fragment">That's exactly what Polyfills are</li>
+        </ul>
+    </section>
+    <section id="metaprogramming-example">
+        <h2>Metaprogramming example</h2>
+        <pre class="fragment"><code class="hljs">var message = 'I like Javascript';  </code></pre>
+        <pre class="fragment"><code class="hljs">console.log(message.shout());</code></pre>
+        <pre class="fragment"><code class="hljs">// TypeError: message.shout is not a function</code></pre>
+        <p class="fragment">Let's write our own polyfill!</p>
+<pre class="fragment"><code class="hljs">String.prototype.shout = function(){ 
+    return this.toUpperCase(); 
+}</code></pre>
+    <pre class="fragment"><code class="hljs">console.log(message.shout());</code></pre>
+    <pre class="fragment"><code class="hljs">// I LIKE JAVASCRIPT</code></pre>
+    </section>
+</section>
+
+<section>
+    <section id="template-strings">
+        <h2>Template Strings</h2>
+        <ul>
+            <li class="fragment">Traditional strings: Single or double quotes: <mark>'</mark> <mark>"</mark></li>
+            <li class="fragment">New syntax: Backticks <mark>`</mark> for backward compatibility</li>
+            <li class="fragment">Main benefits:
+                <ul>
+                    <li>Multi-line strings (keeping whitespace)</li>
+                    <li>String interpolation</li>
+                </ul>
+            </li>
+            <li class="fragment">Previous implementations: mustache.js, handlebars.js</li>
+        </ul>
+    </section>
+    <section>
+        <h2>Multi-line strings</h2>
+        <p>Great for HTML templates inside JS files, a là React</p>
+<pre><code class="hljs" data-trim>
+console.log("string text line 1\n"+
+"string text line 2");</code></pre>
+<pre class="fragment"><code class="hljs" data-trim>
+console.log(`string text line 1
+string text line 2`);</code></pre>
+<pre class="fragment"><code class="hljs" data-trim>
+// "string text line 1
+// string text line 2"
+</code></pre>
+    </section>
+    <section>
+        <h2>String interpolation</h2>
+        <p>No more endless string concatenations</p>
+<pre><code class="hljs" data-trim>
+var a = 5;
+var b = 10;
+console.log("Fifteen is " + (a + b) + " and\nnot " + (2 * a + b) + ".");
+</code></pre>
+<pre class="fragment"><code class="hljs" data-trim>
+var a = 5;
+var b = 10;
+console.log(`Fifteen is ${a + b} and\nnot ${2 * a + b}.`);
+</code></pre>
+<pre class="fragment"><code class="hljs" data-trim>
+// "Fifteen is 15 and
+// not 20."
+</code></pre>
+    </section>
+</section>
+
+<section id="maps">
+    <h2>Maps</h2>
+    <ul>
+        <li class="fragment">Key → Value collection</li>
+        <li class="fragment">Similar to JS objects (aka Hash-Maps)</li>
+        <li class="fragment">Better semantics: <mark>size, set(), get(), has(), delete(), clear(), iterable, destructuring, etc</mark></li>
+        <li class="fragment">Any value (both objects and primitive values) may be used as either a key or a value</li>
+    </ul>
+<pre class="fragment"><code class="hljs" data-trim>
+var map = new Map()
+
+map.set('contra', { description: 'Asynchronous flow control' })
+map.set('dragula', { description: 'Drag and drop' })
+map.set('woofmark', { description: 'Markdown and WYSIWYG editor' })
+</code></pre>
+
+</section>
+
+<section id="sets">
+    <h2>Sets</h2>
+    <ul>
+        <li class="fragment">Array of <em>unique</em> values of any type, whether primitive values or object references</li>
+        <li class="fragment">Enforces uniqueness</li>
+        <li class="fragment">Better semantics: <mark>size, add(), has(), delete(), clear(), iterable, etc</mark></li>
+    </ul>
+<pre class="fragment"><code class="hljs" data-trim>
+var set = new Set([1, 2, 3, 4, 4])
+
+console.log([...set])
+// <- [1, 2, 3, 4]
+</code></pre>
+
+</section>
+
+<section>
+    <section id="const-let">
+        <h2>Const & Let</h2>
+        <ul>
+            <li>tl;dr: Stop using <mark>var</mark>, start using <mark>const</mark> and <mark>let</mark></li>
+            <li>New keywords for backward compatibility</li>
+            <li>Better semantics, you can better tell the intention</li>
+        </ul>
+    </section>
+    <section id="const">
+        <h2>Const</h2>
+        <ul><li>Read-only <em>reference</em> to a value</li></ul>
+<pre class="fragment"><code class="hljs" data-trim>
+const MY_FAV = 7;
+
+MY_FAV = 20; // fails silently in FF and Chrome, not in Safari
+
+console.log("my favorite number is: " + MY_FAV); // will print 7
+
+const MY_FAV = 20; // re-declaring a constant throws an error
+
+var MY_FAV = 20; // also fails
+
+const FOO; // SyntaxError: missing = in const declaration
+</code></pre>
+<pre class="fragment"><code class="hljs" data-trim>
+const MY_OBJECT = {"key": "value"}; // const also works on objects
+
+MY_OBJECT = {"OTHER_KEY": "value"}; // fails as above
+
+// object keys are not protected, so this is executed without problems
+MY_OBJECT.key = "otherValue"; // Object.freeze() makes it immutable
+</code></pre>
+    </section>
+    <section id="let">
+        <h2>Let</h2>
+        <ul>
+            <li class="fragment">Block scope local variable</li>
+            <li class="fragment"><mark>var</mark> are pathologically global</li>
+            <li class="fragment">ES5 has only 2 scopes: <mark>global</mark> and <mark>function</mark></li>
+            <li class="fragment"><mark>var</mark> defined inside <mark>if, for</mark> "escapes" to the upper scope</li>
+            <li class="fragment">No hoisting</li>
+        </ul>
+    </section>
+    <section>
+        <h2><mark>let</mark> examples</h2>
+<pre class="fragment"><code class="hljs" data-trim>
+function varTest() {
+  var x = 31;
+  if (true) {
+    var x = 71;  // same variable!
+    console.log(x);  // 71
+  }
+  console.log(x);  // 71
+}
+</code></pre>
+<pre class="fragment"><code class="hljs" data-trim>
+function letTest() {
+  let x = 31;
+  if (true) {
+    let x = 71;  // different variable
+    console.log(x);  // 71
+  }
+  console.log(x);  // 31
+}
+</code></pre>
+<pre class="fragment"><code class="hljs" data-trim>
+function do_something() {
+  console.log(foo); // ReferenceError
+  let foo = 2;
+}
+</code></pre>
+    </section>
+</section>
+
+<section id="destructuring">
+    <h2>Destructuring</h2>
+<pre class="fragment"><code class="hljs" data-trim>
+var a, b, rest;
+
+[a, b] = [1, 2]
+console.log(a) // 1
+console.log(b) // 2
+
+[a, b, ...rest] = [1, 2, 3, 4, 5]
+console.log(a) // 1
+console.log(b) // 2
+console.log(rest) // [3, 4, 5]
+
+({a, b} = {a:1, b:2})
+console.log(a) // 1
+console.log(b) // 2
+
+({a, b, ...rest} = {a:1, b:2, c:3, d:4}) // ES7
+</code></pre>
+
+<pre class="fragment"><code class="hljs" data-trim>
+import {Component} from 'angular2/core';
+</code></pre>
+
+</section>
+
+<section id="fat-arrow-functions">
+    <h2>Fat Arrow Functions</h2>
+    <ul>
+        <li class="fragment">Lexical <mark>this</mark> and <mark>arguments</mark> keywords</li>
+        <li class="fragment">Shorter syntax</li>
+    </ul>
+<pre class="fragment"><code class="hljs" data-trim>
+var a = [
+  "Hydrogen",
+  "Helium",
+  "Lithium",
+  "Beryl­lium"
+];
+
+var a2 = a.map(function(s){ return s.length });
+
+var a3 = a.map( s => s.length );
+</code></pre>
+</section>
+
+<section>
+    <h2>To be continued...</h2>
+    <ul>
+        <li class="fragment">Class Basics</li>
+        <li class="fragment">Class Inheritance</li>
+        <li class="fragment">Module</li>
+        <li class="fragment">Module Loaders</li>
+    </ul>
+</section>
+
+<section>
+    <h1>Thank you!</h1>
+    <h2 class="fragment">Questions?</h2>
+</section>
+
+<section>
+    <h2>Sources</h2>
+    <ul>
+        <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference">Mozilla Development Network (MDN)</a></li>
+        <li><a href="https://player.oreilly.com/videos/9781491957233">O'Reilly Media: What's New in JavaScript</a></li>
+    </ul>
+</section>
+
+<!-- <section id="class-basics">
+    <h2>Class Basics</h2>
+</section> -->
+
+<!-- <section id="class-inheritance">
+    <h2>Class Inheritance</h2>
+</section> -->
+
+<!-- <section id="module">
+    <h2>Module</h2>
+</section> -->
+
+<!-- <section id="module-loaders">
+    <h2>Module Loaders</h2>
+</section> -->
+        </div>
+    </div>
+    <!-- <script src="lib/js/less.min.js"></script> -->
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+    <script src="scripts.js"></script>
+</body>
+</html>
