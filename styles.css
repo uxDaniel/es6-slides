@@ -46,3 +46,12 @@
 .reveal section img.icon[src$='.svg'] {
     max-width: 1em;
 }
+
+.reveal ul > li > ul {
+    margin-top: 0.25em;
+}
+
+.reveal ul > li > ul > li {
+    line-height: 1em;
+    margin-bottom: 0.25em;
+}

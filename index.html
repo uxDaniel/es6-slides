@@ -30,15 +30,14 @@
         <li><a href="#/strings">New String Methods</a></li>
         <li><a href="#/metaprogramming">Metaprogramming</a></li>
         <li><a href="#/template-strings">Template Strings</a></li>
-        <li><a href="#/maps">Maps</a></li>
-        <li><a href="#/sets">Sets</a></li>
+        <li><a href="#/maps">Maps</a> & <a href="#/sets">Sets</a></li>
         <li><a href="#/const-let">Const & Let</a></li>
         <li><a href="#/destructuring">Destructuring</a></li>
         <li><a href="#/fat-arrow-functions">Fat Arrow Functions</a></li>
-        <!-- <li><a href="#/class-basics">Class Basics</a></li>
+        <li><a href="#/class-basics">Class Basics</a></li>
         <li><a href="#/class-inheritance">Class Inheritance</a></li>
         <li><a href="#/module">Module</a></li>
-        <li><a href="#/module-loaders">Module Loaders</a></li> -->
+        <li><a href="#/module-loading">Module Loading</a></li>
     </ul>
 </section>
 
@@ -310,9 +309,9 @@ console.log([...set])
     <section id="const-let">
         <h2>Const & Let</h2>
         <ul>
-            <li>tl;dr: Stop using <mark>var</mark>, start using <mark>const</mark> and <mark>let</mark></li>
-            <li>New keywords for backward compatibility</li>
-            <li>Better semantics, you can better tell the intention</li>
+            <li class="fragment">tl;dr: Stop using <mark>var</mark>, start using <mark>const</mark> and <mark>let</mark></li>
+            <li class="fragment">New keywords for backward compatibility</li>
+            <li class="fragment">Better semantics, you can better tell the intention</li>
         </ul>
     </section>
     <section id="const">
@@ -429,13 +428,205 @@ var a3 = a.map( s => s.length );
 </section>
 
 <section>
-    <h2>To be continued...</h2>
+    <section id="class-basics">
+        <h2>Class Basics</h2>
+        <ul>
+            <li class="fragment">Object literals (JSON: JavaScript Object Notation)</li>
+            <li class="fragment"><strong>To share behavior:</strong> Function as a class (prototypes)</li>
+            <li class="fragment">
+                Javascript uses <strong>prototype-based inheritance</strong>
+                <ul>
+                    <li class="fragment">You clone existing objects, instead of instantiating classes</li>
+                    <li class="fragment">You can always <strong>extend</strong> behaviors (metaprogramming) </li>
+                    <!-- <li class="fragment">Makes easier composition instead of inheritance</li> -->
+                </ul>
+            </li>
+            <li class="fragment">New <mark>class</mark> keyword (more syntactic sugar)</li>
+            <li class="fragment">Strict-mode only (e.g. class definitions are non hoisted)</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Prototype methods</h2>
+        <ul>
+            <li class="fragment">Each new instance has its own member data</li>
+            <li class="fragment">Each new instance share the same methods</li>
+        </ul>
+<pre class="fragment"><code class="hljs" data-trim>
+class Polygon {
+  constructor(height, width) {
+    this.height = height;
+    this.width = width;
+  }
+
+  get area() {
+    return this.calcArea();
+  }
+
+  calcArea() {
+    return this.height * this.width;
+  }
+}
+
+const square = new Polygon(10, 10);
+console.log(square.area); //100
+</code></pre>
+    </section>
+    <section>
+        <h2>Static methods</h2>
+<pre class="fragment"><code class="hljs" data-trim>
+class Point {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    static distance(a, b) {
+        const dx = a.x - b.x;
+        const dy = a.y - b.y;
+
+        return Math.sqrt(dx*dx + dy*dy);
+    }
+}
+
+const p1 = new Point(5, 5);
+const p2 = new Point(10, 10);
+console.log(Point.distance(p1, p2)); //7.0710678118654755
+</code></pre>
+    </section>
+</section>
+
+<section id="class-inheritance">
+    <h2>Class Inheritance</h2>
     <ul>
-        <li class="fragment">Class Basics</li>
-        <li class="fragment">Class Inheritance</li>
-        <li class="fragment">Module</li>
-        <li class="fragment">Module Loaders</li>
+        <li class="fragment">New <mark>extends</mark> keyword</li>
+        <li class="fragment">Object's parent access with <mark>super</mark></li>
     </ul>
+
+<pre class="fragment"><code class="hljs" data-trim>
+class Animal {
+  constructor(name) {
+    this.name = name;
+  }
+
+  speak() {
+    console.log(this.name + ' makes a noise.');
+  }
+}
+</code></pre>
+
+<pre class="fragment"><code class="hljs" data-trim>
+class Dog extends Animal {
+  speak() { //override
+    super.speak(); //object's parent access
+    console.log(this.name + ' barks.');
+  }
+}
+</code></pre>
+</section>
+
+<section>
+    <section id="module">
+        <h2>Module</h2>
+        <ul>
+            <!-- <li class="fragment">JS is no longer a toy language</li> -->
+            <li class="fragment">IIFE: Immediately-invoked function expression</li>
+            <!-- <li class="fragment">IIFE EXAMPLE</li> -->
+            <li class="fragment">A module is simply an individual JS file</li>
+            <li class="fragment">It's used to logically group classes and/or functions</li>
+            <li class="fragment">New <mark>import</mark> and <mark>export</mark> keywords</li>
+            <li class="fragment">Scrict-mode only</li>
+            <li class="fragment">Classes and Functions are private by default</li>
+        </ul>
+    </section>
+    <section>
+        <h2>Module example</h2>
+<pre class="fragment"><code class="hljs" data-trim>
+// kittydar.js - Find the locations of all the cats in an image.
+
+export function detectCats(canvas, options) {
+  var kittydar = new Kittydar(options);
+  return kittydar.detectCats(canvas);
+}
+
+export class Kittydar {
+  // ... several methods doing image processing ...
+}
+
+function resizeCanvas() { // This helper function isn't exported.
+  // ...
+}
+</code></pre>
+
+<pre class="fragment"><code class="hljs" data-trim>
+// demo.js - Kittydar demo program
+
+import {detectCats} from "kittydar.js"; //destructuring
+
+function go() {
+    var canvas = document.getElementById("catpix");
+    var cats = detectCats(canvas);
+    drawRectangles(canvas, cats);
+}
+</code></pre>
+    </section>
+</section>
+
+
+<section id="module-loading">
+    <h2>Module Loading</h2>
+<pre class="fragment"><code class="hljs" data-trim>
+<script type="module" src="module-file.js"></script>
+</code></pre>
+
+    <ul>
+        <li class="fragment">SystemJS
+            <ul>
+                <li class="fragment">Loads ES6 modules, AMD, CommonJS and global scripts</li>
+                <li class="fragment">Works in the browser and NodeJS</li>
+                <li class="fragment">Works with both Traceur and Babel</li>
+                <li class="fragment">Only one <mark>&lt;script src=""&gt;&lt;/script&gt;</mark></li>
+            </ul>
+        </li>
+    </ul>
+<pre class="fragment"><code class="hljs" data-trim>
+<script src="system.js"></script>
+<script>
+  // set our baseURL reference path
+  System.config({
+    baseURL: '/app'
+  });
+
+  // loads /app/main.js
+  System.import('main.js');
+</script>
+</code></pre>
+</section>
+
+<section>
+    <section>
+        <h2>Summary</h2>
+        <img src="welcome.png" alt="Welcome to the World of Tomorrow!" class="fragment" />
+    </section>
+    <section>
+        <h2>Summary</h2>
+        <ul class="two-columns nowrap">
+            <li><a href="#/ecmascript">ECMAScript</a></li>
+            <li><a href="#/typescript">TypeScript</a></li>
+            <li><a href="#/transpilers">Transpilers</a></li>
+            <li><a href="#/strings">New String Methods</a></li>
+            <li><a href="#/metaprogramming">Metaprogramming</a></li>
+            <li><a href="#/template-strings">Template Strings</a></li>
+            <li><a href="#/maps">Maps</a> & <a href="#/sets">Sets</a></li>
+            <li><a href="#/const-let">Const & Let</a></li>
+            <li><a href="#/destructuring">Destructuring</a></li>
+            <li><a href="#/fat-arrow-functions">Fat Arrow Functions</a></li>
+            <li><a href="#/class-basics">Class Basics</a></li>
+            <li><a href="#/class-inheritance">Class Inheritance</a></li>
+            <li><a href="#/module">Module</a></li>
+            <li><a href="#/module-loading">Module Loading</a></li>
+        </ul>
+    </section>
 </section>
 
 <section>
@@ -448,24 +639,10 @@ var a3 = a.map( s => s.length );
     <ul>
         <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference">Mozilla Development Network (MDN)</a></li>
         <li><a href="https://player.oreilly.com/videos/9781491957233">O'Reilly Media: What's New in JavaScript</a></li>
+        <li><a href="http://es6-features.org/">ECMAScript 6 — New Features: Overview & Comparison</a></li>
     </ul>
 </section>
 
-<!-- <section id="class-basics">
-    <h2>Class Basics</h2>
-</section> -->
-
-<!-- <section id="class-inheritance">
-    <h2>Class Inheritance</h2>
-</section> -->
-
-<!-- <section id="module">
-    <h2>Module</h2>
-</section> -->
-
-<!-- <section id="module-loaders">
-    <h2>Module Loaders</h2>
-</section> -->
         </div>
     </div>
     <!-- <script src="lib/js/less.min.js"></script> -->
