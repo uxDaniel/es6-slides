@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <title>Dr. ES6, or how I learned to stop worrying and love Javascript</title>
+    <title>ES6: What's all the fuss about?</title>
 
     <link rel="stylesheet" href="css/reveal.css">
     <link rel="stylesheet" href="css/theme/moon.css">
@@ -17,15 +17,16 @@
     <div class="reveal">
         <div class="slides">
 <section>
-    <h1>Dr. ES6</h1>
-    <p>or how I learned to stop worrying and love Javascript</p>
+    <h1>ES6</h1>
+    <!-- <small>(a.k.a. ES2015)</small> -->
+    <h2>What's all the fuss about?</h2>
 </section>
 
 <section id="agenda">
     <h2>Agenda</h2>
     <ul class="two-columns nowrap">
         <li><a href="#/ecmascript">ECMAScript</a></li>
-        <li><a href="#/typescript">TypeScript</a></li>
+        <!-- <li><a href="#/typescript">TypeScript</a></li> -->
         <li><a href="#/transpilers">Transpilers</a></li>
         <li><a href="#/strings">New String Methods</a></li>
         <li><a href="#/metaprogramming">Metaprogramming</a></li>
@@ -107,7 +108,8 @@
         </table>
     </section>
 </section>
-<section id="typescript">
+
+<!-- <section id="typescript">
     <h2>TypeScript</h2>
     <ul>
         <li class="fragment">Javascript superset</li>
@@ -116,8 +118,8 @@
         <li class="fragment">Microsoft invented it</li>
         <li class="fragment">Google wrote AngularJS 2 in Typescript</li>
     </ul>
-
-<pre class="fragment"><code class="hljs">//File: app/app.component.ts
+<pre class="fragment"><code class="hljs" data-trim>
+//File: app/app.component.ts
 
 import {Component} from 'angular2/core';
 
@@ -127,7 +129,7 @@ import {Component} from 'angular2/core';
 })
 
 export class AppComponent { }</code></pre>
-</section>
+</section> -->
 
 <section id="transpilers">
     <h2>Transpilers</h2>
@@ -156,32 +158,39 @@ export class AppComponent { }</code></pre>
     </section>
     <section>
         <h2>str.startsWith(searchString[, position])</h2>
-        <pre><code class="hljs">var str = 'To be, or not to be, that is the question.';
+<pre><code class="hljs" data-trim>
+var str = 'To be, or not to be, that is the question.';
 
 console.log(str.startsWith('To be'));         // true
 console.log(str.startsWith('not to be'));     // false
-console.log(str.startsWith('not to be', 10)); // true</code></pre>
-<div class="fragment">
-    <h2>str.endsWith(searchString[, position])</h2>
-    <pre><code class="hljs">var str = 'To be, or not to be, that is the question.';
+console.log(str.startsWith('not to be', 10)); // true
+</code></pre>
+        <div class="fragment">
+            <h2>str.endsWith(searchString[, position])</h2>
+<pre><code class="hljs" data-trim>
+var str = 'To be, or not to be, that is the question.';
 
 console.log(str.endsWith('question.')); // true
 console.log(str.endsWith('to be'));     // false
-console.log(str.endsWith('to be', 19)); // true</code></pre>
-</div>
+console.log(str.endsWith('to be', 19)); // true
+</code></pre>
+        </div>
     </section>
     <section>
         <h2>str.includes(searchString[, position])</h2>
-<pre><code class="hljs">var str = 'To be, or not to be, that is the question.';
+<pre><code class="hljs" data-trim>
+var str = 'To be, or not to be, that is the question.';
 
 console.log(str.includes('To be'));       // true
 console.log(str.includes('question'));    // true
 console.log(str.includes('nonexistent')); // false
 console.log(str.includes('To be', 1));    // false
-console.log(str.includes('TO BE'));       // false</code></pre>
-<div class="fragment">
-<h2>str.repeat(count)</h2>
-<pre><code class="hljs">var str = 'To be, or not to be, that is the question.';
+console.log(str.includes('TO BE'));       // false
+</code></pre>
+        <div class="fragment">
+            <h2>str.repeat(count)</h2>
+<pre><code class="hljs" data-trim>
+var str = 'To be, or not to be, that is the question.';
 
 'abc'.repeat(-1);   // RangeError
 'abc'.repeat(0);    // ''
@@ -191,8 +200,9 @@ console.log(str.includes('TO BE'));       // false</code></pre>
 'abc'.repeat(1/0);  // RangeError
 
 ({ toString: () => 'abc', repeat: String.prototype.repeat }).repeat(2);
-// 'abcabc' (repeat() is a generic method)</code></pre>
-</div>
+// 'abcabc' (repeat() is a generic method)
+</code></pre>
+        </div>
     </section>
 </section>
 
@@ -210,15 +220,27 @@ console.log(str.includes('TO BE'));       // false</code></pre>
     </section>
     <section id="metaprogramming-example">
         <h2>Metaprogramming example</h2>
-        <pre class="fragment"><code class="hljs">var message = 'I like Javascript';  </code></pre>
-        <pre class="fragment"><code class="hljs">console.log(message.shout());</code></pre>
-        <pre class="fragment"><code class="hljs">// TypeError: message.shout is not a function</code></pre>
+<pre class="fragment"><code class="hljs" data-trim>
+var message = 'I like Javascript';
+  </code></pre>
+<pre class="fragment"><code class="hljs" data-trim>
+console.log(message.shout());
+</code></pre>
+<pre class="fragment"><code class="hljs" data-trim>
+// TypeError: message.shout is not a function
+</code></pre>
         <p class="fragment">Let's write our own polyfill!</p>
-<pre class="fragment"><code class="hljs">String.prototype.shout = function(){ 
+<pre class="fragment"><code class="hljs" data-trim>
+String.prototype.shout = function(){ 
     return this.toUpperCase(); 
-}</code></pre>
-    <pre class="fragment"><code class="hljs">console.log(message.shout());</code></pre>
-    <pre class="fragment"><code class="hljs">// I LIKE JAVASCRIPT</code></pre>
+}
+</code></pre>
+<pre class="fragment"><code class="hljs" data-trim>
+console.log(message.shout());
+</code></pre>
+<pre class="fragment"><code class="hljs" data-trim>
+// I LIKE JAVASCRIPT
+</code></pre>
     </section>
 </section>
 
